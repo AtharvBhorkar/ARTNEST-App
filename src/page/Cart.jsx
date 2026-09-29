@@ -35,7 +35,7 @@ export default function Cart() {
         <p>Items: {items.length}</p>
         <h2>Total: ?{total.toLocaleString()}</h2>
         <button
-          onClick={() => alert("Checkout demo — payment integration can be added later.")}
+          onClick={() => alert("Checkout demo ï¿½ payment integration can be added later.")}
           style={buttonStyle}
         >
           Proceed to Checkout
