@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const collections = [
   {
@@ -7,7 +7,7 @@ const collections = [
     title: "Contemporary Expressions & Chromatic Gestures",
     description: "Bold kinetic brushstrokes, textural pigment densities, and emotive abstractions that anchor expansive high-ceiling interiors.",
     tags: ["Abstract Oil", "Large Canvas", "Expressive"],
-    price: "From €750",
+    price: "From ₹750",
     images: {
       main: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=600",
       topRight: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&q=80&w=300",
@@ -20,7 +20,7 @@ const collections = [
     title: "Earth, Ash & Ceramic Forms",
     description: "Tactile kiln-fired clay vessels, raku ceramics, and raw stoneware celebrating organic imperfections and natural minerals.",
     tags: ["Japanese Stoneware", "Raku", "Anagama Kiln"],
-    price: "From €420",
+    price: "From ₹420",
     images: {
       main: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&q=80&w=600",
       topRight: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&q=80&w=300",
@@ -33,7 +33,7 @@ const collections = [
     title: "Monochrome Stories & Raw Plaster",
     description: "The subtlety of white-on-white, carved gypsum bas-reliefs, and charcoal wash studies capturing shadow and natural daylight.",
     tags: ["Minimalist", "Bas-Relief", "Textured White"],
-    price: "From €690",
+    price: "From ₹690",
     images: {
       main: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=600",
       topRight: "https://images.unsplash.com/photo-1582561424760-0321d75e81fa?auto=format&fit=crop&q=80&w=300",
@@ -46,7 +46,7 @@ const collections = [
     title: "Nature, Flora & Serene Botanicals",
     description: "Gentle earthen hues, pressed organic botanicals, and meditative landscapes that bring the quiet grace of nature indoors.",
     tags: ["Fine Art Botanicals", "Tempera", "Natural Linen"],
-    price: "From €540",
+    price: "From ₹540",
     images: {
       main: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&q=80&w=600",
       topRight: "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&q=80&w=300",
@@ -59,7 +59,7 @@ const collections = [
     title: "Indian Heritage & Ancient Motifs",
     description: "Centuries of artisanal memory translated through block-print textiles, brass casting, and classical figurative interpretations.",
     tags: ["Heritage Relics", "Lost-Wax Casting", "Traditional Ochres"],
-    price: "From €620",
+    price: "From ₹620",
     images: {
       main: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=600",
       topRight: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=300",
@@ -72,7 +72,7 @@ const collections = [
     title: "Emerging Talents: The Avant-Garde Atelier",
     description: "Bold conceptual debuts, experimental mixed media, and fresh perspectives from newly vetted international academy graduates.",
     tags: ["Rising Stars", "Limited Editions", "Collector Debut"],
-    price: "From €590",
+    price: "From ₹590",
     images: {
       main: "https://images.unsplash.com/photo-1549887534-1541e9326642?auto=format&fit=crop&q=80&w=600",
       topRight: "https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&q=80&w=300",
@@ -82,6 +82,7 @@ const collections = [
 ];
 
 export default function CuratedEnsembles() {
+  const [showMore, setShowMore] = useState(false);
   return (
     <section className="bg-[#FAF7F2] min-h-screen py-12 px-4 sm:px-6 lg:px-12 font-sans text-neutral-800">
       <div className="max-w-7xl mx-auto">
@@ -118,12 +119,12 @@ export default function CuratedEnsembles() {
                   <div className="col-span-1 flex flex-col gap-2 h-full">
                     <img 
                       src={item.images.topRight} 
-                      alt="Detail 1" 
+                      alt={`Artwork detail 1 from ${item.title}`}
                       className="w-full h-1/2 object-cover rounded-sm"
                     />
                     <img 
                       src={item.images.bottomRight} 
-                      alt="Detail 2" 
+                      alt={`Artwork detail 2 from ${item.title}`}
                       className="w-full h-1/2 object-cover rounded-sm"
                     />
                   </div>
@@ -179,8 +180,8 @@ export default function CuratedEnsembles() {
           <p className="text-neutral-400 text-xs mb-3">
             Showing 6 of 24 seasonal ensembles. New themes added every fortnight.
           </p>
-          <button className="bg-[#FFF0EB] hover:bg-[#FFE5DC] text-[#C85D38] text-xs font-medium px-5 py-2.5 rounded-sm transition-colors inline-flex items-center gap-1.5">
-            Load 18 More Curated Themes
+          <button type="button" onClick={() => setShowMore((value) => !value)} className="bg-[#FFF0EB] hover:bg-[#FFE5DC] text-[#C85D38] text-xs font-medium px-5 py-2.5 rounded-sm transition-colors inline-flex items-center gap-1.5">
+            {showMore ? 'All Curated Themes Loaded' : 'Load 18 More Curated Themes'}
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
             </svg>

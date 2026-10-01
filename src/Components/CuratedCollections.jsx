@@ -99,18 +99,13 @@ const CuratedCollections = () => {
                   className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                 />
 
-                {/* Artwork Count */}
-                <div className="absolute left-4 top-4">
-                  <span className="inline-flex rounded-full bg-white/90 px-3 py-1.5 text-[10px] font-bold tracking-[0.4px] text-[#9a4e33] shadow-sm backdrop-blur-sm">
-                    {collection.artworks}
-                  </span>
-                </div>
-
               </div>
 
 
               {/* ================= CARD CONTENT ================= */}
               <div className="flex min-h-[198px] flex-col px-5 pb-5 pt-5 sm:px-5">
+
+                <span className="artwork-card-label">{collection.artworks}</span>
 
                 {/* Title */}
                 <h3 className="max-w-[390px] font-serif text-[25px] font-normal leading-[1.18] tracking-[-0.2px] text-[#171311] sm:text-[26px]">

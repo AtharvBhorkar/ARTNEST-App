@@ -9,10 +9,17 @@ import Artist from "./pages/Artist";
 import Sculptures from "./pages/Sculptures";
 import Profile from "./pages/Profile";
 import AboutArtNest from "./pages/AboutArtNest";
+import imagePlaceholder from "/artwork-placeholder.svg";
 
 const App = () => {
   return (
-    <div>
+    <div onErrorCapture={(event) => {
+      const image = event.target;
+      if (image instanceof HTMLImageElement && !image.dataset.fallbackApplied) {
+        image.dataset.fallbackApplied = "true";
+        image.src = imagePlaceholder;
+      }
+    }}>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />

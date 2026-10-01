@@ -139,6 +139,7 @@ const AssuranceSection = () => {
                 {/* Link */}
                 <button
                   type="button"
+                  onClick={() => alert(`${item.title}: ${item.description}`)}
                   className="mt-3 flex items-center gap-1 text-[8px] font-medium text-[#984c30] transition hover:text-[#71341f] sm:text-[10px]"
                 >
                   {item.link}
@@ -213,6 +214,7 @@ const AssuranceSection = () => {
 
                 <button
                   type="button"
+                  onClick={() => alert('Commission inquiry is ready.')}
                   className="
                     inline-flex
                     h-8
@@ -242,6 +244,7 @@ const AssuranceSection = () => {
 
                 <button
                   type="button"
+                  onClick={() => alert('Commission process: share your brief, review artist proposals, then approve the final work.')}
                   className="
                     inline-flex
                     h-8

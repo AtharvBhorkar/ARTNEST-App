@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const mediaCategories = [
   { name: 'Travertine & Marble', count: 142 },
@@ -18,8 +19,8 @@ const artworks = [
     location: "Carrara, Italy",
     delivery: "White-Glove Crated",
     dimensions: "68 x 38 x 30 cm • 18.5 kg",
-    price: "$7,800",
-    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=600",
+    price: "₹7,800",
+    image: "https://images.unsplash.com/photo-1705996952322-b070e7982606?auto=format&fit=crop&q=85&w=900",
     primaryCta: true,
   },
   {
@@ -30,7 +31,7 @@ const artworks = [
     location: "Kyoto, Japan",
     delivery: "Ready to Dispatch",
     dimensions: "44 x 28 x 28 cm • 6.2 kg",
-    price: "$850",
+    price: "₹850",
     image: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&q=80&w=600",
     primaryCta: false,
   },
@@ -42,7 +43,7 @@ const artworks = [
     location: "Stockholm, Sweden",
     delivery: "Architectural Mount",
     dimensions: "120 x 85 x 12 cm • 14.0 kg",
-    price: "$3,950",
+    price: "₹3,950",
     image: "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&q=80&w=600",
     primaryCta: false,
   },
@@ -54,7 +55,7 @@ const artworks = [
     location: "Oaxaca, Mexico",
     delivery: "Foundry Mark Included",
     dimensions: "32 x 26 x 20 cm • 4.8 kg",
-    price: "$2,800",
+    price: "₹2,800",
     image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&q=80&w=600",
     primaryCta: false,
   },
@@ -66,8 +67,8 @@ const artworks = [
     location: "Carrara, Italy",
     delivery: "Authenticated",
     dimensions: "52 x 30 x 24 cm • 22.0 kg",
-    price: "$6,400",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600",
+    price: "₹6,400",
+    image: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&q=85&w=900",
     primaryCta: false,
   },
   {
@@ -78,7 +79,7 @@ const artworks = [
     location: "London, UK",
     delivery: "Foundry Certificate",
     dimensions: "94 x 22 x 22 cm • 16.0 kg",
-    price: "$5,200",
+    price: "₹5,200",
     image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=600",
     primaryCta: false,
   }
@@ -127,6 +128,7 @@ const guarantees = [
 ];
 
 export default function SculpturesGalleryHeader() {
+  const navigate = useNavigate();
   const [selectedMedia, setSelectedMedia] = useState(0);
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
 
@@ -228,7 +230,7 @@ export default function SculpturesGalleryHeader() {
               </div>
 
               <div className="relative bg-[#FAF0E6] rounded-lg px-3.5 py-2.5 flex justify-between items-center text-xs font-medium text-neutral-800 cursor-pointer hover:bg-[#F3E5D8] transition-colors">
-                <span>Price: <strong className="font-semibold">$250 – $15,000+</strong></span>
+                <span>Price: <strong className="font-semibold">₹250 – ₹15,000+</strong></span>
                 <svg className="w-3.5 h-3.5 text-neutral-500 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                 </svg>
@@ -306,7 +308,7 @@ export default function SculpturesGalleryHeader() {
                 className="bg-[#FFF8F2] rounded-2xl p-4 shadow-xs border border-neutral-100 flex flex-col justify-between"
               >
                 <div>
-                  <div className="relative h-64 w-full rounded-xl overflow-hidden mb-3 bg-neutral-100">
+                  <div className="artwork-card-media !aspect-[4/3] rounded-xl mb-3">
                     <img
                       src={item.image}
                       alt={item.title}
@@ -314,22 +316,21 @@ export default function SculpturesGalleryHeader() {
                     />
                     
                     <button 
+                      type="button"
+                      onClick={(event) => { const button = event.currentTarget; const saved = button.getAttribute('aria-pressed') === 'true'; button.setAttribute('aria-pressed', String(!saved)); button.classList.toggle('text-red-500', !saved); }}
                       className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-xs flex items-center justify-center text-neutral-600 hover:text-red-500 transition-colors shadow-xs"
                       aria-label="Save to favorites"
+                      aria-pressed="false"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                       </svg>
                     </button>
 
-                    <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-xs px-3 py-1 rounded-full shadow-xs">
-                      <span className="text-[10px] font-semibold text-neutral-700 uppercase tracking-wider">
-                        {item.badge}
-                      </span>
-                    </div>
                   </div>
 
                   <div className="bg-white rounded-xl p-4 shadow-2xs border border-neutral-100/60 mb-3">
+                    <span className="artwork-card-label mb-3">{item.badge}</span>
                     <div className="flex justify-between items-center text-[10px] text-neutral-400 font-medium mb-1.5">
                       <div className="flex items-center gap-1">
                         <svg className="w-3 h-3 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -365,7 +366,7 @@ export default function SculpturesGalleryHeader() {
                     </div>
                   </div>
 
-                  <button 
+                  <button type="button" onClick={() => alert(`Added ${item.title} to your bag.`)}
                     className={`text-xs font-medium px-4 py-2 rounded-lg transition-colors shadow-2xs ${
                       item.primaryCta
                         ? 'bg-[#823A21] hover:bg-[#6D301B] text-white'
@@ -388,8 +389,8 @@ export default function SculpturesGalleryHeader() {
           <div className="lg:col-span-6 relative">
             <div className="relative rounded-2xl overflow-hidden shadow-xl aspect-4/3 sm:aspect-16/10">
               <img
-                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=1200"
-                alt="Studio Documentation - Atelier Bellini"
+                src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&q=85&w=1200"
+                alt="Handcrafted ceramic sculpture displayed in an artist's studio"
                 className="w-full h-full object-cover"
               />
               {/* Image Gradient Overlay */}
@@ -462,14 +463,14 @@ export default function SculpturesGalleryHeader() {
 
             {/* Action Buttons */}
             <div className="flex flex-wrap items-center gap-3">
-              <button className="bg-[#823A21] hover:bg-[#6D301B] text-white text-xs font-semibold px-5 py-3 rounded-lg transition-colors flex items-center gap-2 shadow-sm cursor-pointer">
+              <button type="button" onClick={() => alert('Consultation booking is ready.')} className="bg-[#823A21] hover:bg-[#6D301B] text-white text-xs font-semibold px-5 py-3 rounded-lg transition-colors flex items-center gap-2 shadow-sm cursor-pointer">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
                 <span>Inquire for Custom Commission</span>
               </button>
 
-              <button className="bg-white hover:bg-neutral-50 text-neutral-800 text-xs font-semibold px-5 py-3 rounded-lg border border-neutral-200 transition-colors flex items-center gap-2 shadow-xs cursor-pointer">
+              <button type="button" onClick={() => navigate('/artists')} className="bg-white hover:bg-neutral-50 text-neutral-800 text-xs font-semibold px-5 py-3 rounded-lg border border-neutral-200 transition-colors flex items-center gap-2 shadow-xs cursor-pointer">
                 <span>View Atelier Profile</span>
                 <svg className="w-3.5 h-3.5 text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -537,54 +538,6 @@ export default function SculpturesGalleryHeader() {
             ))}
           </div>
 
-          {/* Bottom Status & Pagination Bar */}
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 border-t border-neutral-200/40 pt-6">
-            
-            {/* Results Summary */}
-            <div className="text-xs text-neutral-500 font-medium">
-              Showing <strong className="text-neutral-900 font-semibold">1 – 6</strong> of <strong className="text-neutral-900 font-semibold">428</strong> Sculptural Works
-            </div>
-
-            {/* Pagination Controls */}
-            <div className="flex items-center gap-1.5 text-xs font-medium text-neutral-700">
-              {/* Prev Button */}
-              <button className="w-8 h-8 rounded-lg bg-[#FAF0E6] hover:bg-[#F3E5D8] flex items-center justify-center text-neutral-600 transition-colors cursor-pointer">
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-
-              {/* Active Page */}
-              <button className="w-8 h-8 rounded-lg bg-[#823A21] text-white flex items-center justify-center font-semibold shadow-2xs">
-                1
-              </button>
-
-              {/* Page Buttons */}
-              <button className="w-8 h-8 rounded-lg bg-white/80 hover:bg-white text-neutral-700 flex items-center justify-center transition-colors cursor-pointer">
-                2
-              </button>
-              <button className="w-8 h-8 rounded-lg bg-white/80 hover:bg-white text-neutral-700 flex items-center justify-center transition-colors cursor-pointer">
-                3
-              </button>
-
-              {/* Ellipsis */}
-              <span className="w-6 text-center text-neutral-400">...</span>
-
-              {/* Last Page */}
-              <button className="w-8 h-8 rounded-lg bg-white/80 hover:bg-white text-neutral-700 flex items-center justify-center transition-colors cursor-pointer">
-                18
-              </button>
-
-              {/* Next Button */}
-              <button className="w-8 h-8 rounded-lg bg-[#FAF0E6] hover:bg-[#F3E5D8] flex items-center justify-center text-neutral-600 transition-colors cursor-pointer">
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </div>
-
-          </div>
-
         </div>
       </section>
 
@@ -613,7 +566,7 @@ export default function SculpturesGalleryHeader() {
           {/* Right CTA Buttons Column */}
           <div className="flex flex-col gap-3 w-full sm:w-auto shrink-0 min-w-[240px]">
             {/* Primary Button */}
-            <button className="bg-[#7C361A] hover:bg-[#682D15] text-white text-xs font-medium py-3.5 px-6 rounded-lg transition-colors flex items-center justify-center gap-2.5 shadow-2xs cursor-pointer">
+            <button type="button" onClick={() => alert('Consultation booking is ready.')} className="bg-[#7C361A] hover:bg-[#682D15] text-white text-xs font-medium py-3.5 px-6 rounded-lg transition-colors flex items-center justify-center gap-2.5 shadow-2xs cursor-pointer">
               <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
@@ -621,7 +574,7 @@ export default function SculpturesGalleryHeader() {
             </button>
 
             {/* Secondary Button */}
-            <button className="bg-[#FAF0E6] hover:bg-[#F3E5D8] text-neutral-800 text-xs font-medium py-3.5 px-6 rounded-lg transition-colors flex items-center justify-center gap-2.5 cursor-pointer">
+            <button type="button" onClick={() => navigate('/artists')} className="bg-[#FAF0E6] hover:bg-[#F3E5D8] text-neutral-800 text-xs font-medium py-3.5 px-6 rounded-lg transition-colors flex items-center justify-center gap-2.5 cursor-pointer">
               <svg className="w-4 h-4 text-neutral-700 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
               </svg>

@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function UserProfileDashboard() {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('Personal Information');
   
   const [formData, setFormData] = useState({
     name: 'Margaux Vance-Delacroix',
     email: 'm.delacroix@chateaulux.art',
     phone: '+44 (0) 7911 849201',
-    currency: 'USD ($)',
+    currency: 'INR (₹)',
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+  const resetProfile = () => setFormData({ name: 'Margaux Vance-Delacroix', email: 'm.delacroix@chateaulux.art', phone: '+44 (0) 7911 849201', currency: 'INR (₹)' });
 
   const navItems = [
     { label: 'Personal Information', hasDot: true },
@@ -54,7 +57,7 @@ export default function UserProfileDashboard() {
             </div>
           </div>
 
-          <button className="self-end sm:self-center bg-white hover:bg-neutral-50 text-neutral-700 text-xs font-medium px-4 py-2 rounded-lg border border-neutral-200 transition-colors flex items-center gap-2 shadow-2xs cursor-pointer">
+          <button type="button" onClick={() => document.querySelector('form')?.scrollIntoView({ behavior: 'smooth' })} className="self-end sm:self-center bg-white hover:bg-neutral-50 text-neutral-700 text-xs font-medium px-4 py-2 rounded-lg border border-neutral-200 transition-colors flex items-center gap-2 shadow-2xs cursor-pointer">
             <svg className="w-3.5 h-3.5 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
             </svg>
@@ -99,7 +102,7 @@ export default function UserProfileDashboard() {
             })}
 
             <div className="pt-3 mt-3 border-t border-neutral-100">
-              <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-medium text-neutral-600 hover:bg-red-50 hover:text-red-600 transition-colors cursor-pointer">
+              <button type="button" onClick={() => navigate('/')} className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-medium text-neutral-600 hover:bg-red-50 hover:text-red-600 transition-colors cursor-pointer">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </svg>
@@ -174,9 +177,7 @@ export default function UserProfileDashboard() {
                         onChange={handleInputChange}
                         className="w-full bg-white border border-neutral-200 rounded-lg px-3.5 py-2.5 text-xs text-neutral-800 appearance-none focus:outline-none focus:border-[#8C4A27] transition-colors cursor-pointer"
                       >
-                        <option value="USD ($)">USD ($)</option>
-                        <option value="EUR (€)">EUR (€)</option>
-                        <option value="GBP (£)">GBP (£)</option>
+                        <option value="INR (₹)">INR (₹)</option>
                       </select>
                       <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500">
                         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -190,12 +191,14 @@ export default function UserProfileDashboard() {
                 <div className="flex items-center gap-3 pt-2">
                   <button
                     type="submit"
+                    onClick={() => alert('Profile changes saved.')}
                     className="bg-[#7C361A] hover:bg-[#682D15] text-white text-xs font-medium px-5 py-2.5 rounded-lg transition-colors cursor-pointer"
                   >
                     Save Changes
                   </button>
                   <button
                     type="button"
+                    onClick={resetProfile}
                     className="bg-[#FAF0E6] hover:bg-[#F3E5D8] text-neutral-700 text-xs font-medium px-5 py-2.5 rounded-lg transition-colors cursor-pointer"
                   >
                     Cancel
@@ -210,7 +213,7 @@ export default function UserProfileDashboard() {
                 <h2 className="text-xl font-serif font-semibold text-neutral-900">
                   Recent Orders
                 </h2>
-                <button className="text-xs font-medium text-neutral-600 hover:text-neutral-900 transition-colors cursor-pointer">
+                <button type="button" onClick={() => setActiveTab('Orders')} className="text-xs font-medium text-neutral-600 hover:text-neutral-900 transition-colors cursor-pointer">
                   View all
                 </button>
               </div>
@@ -222,7 +225,7 @@ export default function UserProfileDashboard() {
                       Resonance in Sienna No. IV
                     </h3>
                     <p className="text-[11px] text-neutral-500 mt-0.5">
-                      by Elora Vance • $4,800
+                      by Elora Vance • ₹4,800
                     </p>
                   </div>
 
@@ -230,7 +233,7 @@ export default function UserProfileDashboard() {
                     <span className="bg-white/80 text-neutral-600 text-[10px] font-medium px-2.5 py-1 rounded-md">
                       In Transit
                     </span>
-                    <button className="text-xs font-medium text-neutral-800 hover:text-[#7C361A] transition-colors flex items-center gap-1 cursor-pointer">
+                    <button type="button" onClick={() => alert('Tracking details for Resonance in Sienna No. IV are being prepared.')} className="text-xs font-medium text-neutral-800 hover:text-[#7C361A] transition-colors flex items-center gap-1 cursor-pointer">
                       <span>Track Package</span>
                       <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -245,7 +248,7 @@ export default function UserProfileDashboard() {
                       Volcanic Relic Amphora No. 12
                     </h3>
                     <p className="text-[11px] text-neutral-500 mt-0.5">
-                      by Kenzo Takahashi • $1,250
+                      by Kenzo Takahashi • ₹1,250
                     </p>
                   </div>
 
@@ -253,7 +256,7 @@ export default function UserProfileDashboard() {
                     <span className="bg-white/80 text-neutral-600 text-[10px] font-medium px-2.5 py-1 rounded-md">
                       Delivered
                     </span>
-                    <button className="text-xs font-medium text-neutral-800 hover:text-[#7C361A] transition-colors flex items-center gap-1 cursor-pointer">
+                    <button type="button" onClick={() => alert('Invoice for Volcanic Relic Amphora No. 12 is ready.')} className="text-xs font-medium text-neutral-800 hover:text-[#7C361A] transition-colors flex items-center gap-1 cursor-pointer">
                       <span>View Invoice</span>
                       <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -270,7 +273,7 @@ export default function UserProfileDashboard() {
                 <h2 className="text-xl font-serif font-semibold text-neutral-900">
                   Saved Addresses
                 </h2>
-                <button className="text-xs font-medium text-neutral-600 hover:text-neutral-900 transition-colors cursor-pointer">
+                <button type="button" onClick={() => alert('Address form is ready to add a saved address.')} className="text-xs font-medium text-neutral-600 hover:text-neutral-900 transition-colors cursor-pointer">
                   + Add Address
                 </button>
               </div>
@@ -291,11 +294,11 @@ export default function UserProfileDashboard() {
                 </div>
 
                 <div className="flex items-center gap-2 text-xs font-medium text-neutral-600 shrink-0 self-end sm:self-center">
-                  <button className="hover:text-neutral-900 transition-colors cursor-pointer">
+                  <button type="button" onClick={() => alert('Address edit form is ready.')} className="hover:text-neutral-900 transition-colors cursor-pointer">
                     Edit
                   </button>
                   <span className="text-neutral-300">•</span>
-                  <button className="hover:text-red-600 transition-colors cursor-pointer">
+                  <button type="button" onClick={() => alert('Address removal requires confirmation.')} className="hover:text-red-600 transition-colors cursor-pointer">
                     Remove
                   </button>
                 </div>

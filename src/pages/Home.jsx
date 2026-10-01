@@ -12,6 +12,7 @@ import { SlidersHorizontal } from "lucide-react";
 import ArtWorkCard from '../Components/ArtWorkCard';
 import CuratedCollections from "../Components/CuratedCollections";
 import AssuranceSection from "../Components/AssuranceSection";
+import { useNavigate } from "react-router-dom";
 
 const mediums = [
   {
@@ -60,7 +61,7 @@ const artworks = [
   {
     title: "Solitude in Terracotta",
     artist: "Elena Vance",
-    price: "$1,850",
+    price: "₹1,850",
     medium: "Oil on Canvas",
     size: "90 × 120 cm",
     badge: "ORIGINAL",
@@ -73,7 +74,7 @@ const artworks = [
   {
     title: "Earthen Vessel No. 04",
     artist: "Mateo Rossi",
-    price: "$480",
+    price: "₹480",
     medium: "Hand-thrown Stoneware",
     size: "34 × 22 cm",
     badge: "1 OF 1 UNIQUE",
@@ -86,7 +87,7 @@ const artworks = [
   {
     title: "Chromatic Echoes",
     artist: "Siobhan Chen",
-    price: "$2,400",
+    price: "₹2,400",
     medium: "Acrylic & Gold Leaf",
     size: "100 × 100 cm",
     badge: "GOLD LEAF",
@@ -99,7 +100,7 @@ const artworks = [
   {
     title: "Silent Horizon",
     artist: "David Kaul",
-    price: "$950",
+    price: "₹950",
     medium: "Archival Pigment Print",
     size: "75 × 100 cm",
     badge: "LIMITED ED. /10",
@@ -111,6 +112,7 @@ const artworks = [
 ];
 
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <div>
       <Hero/>
@@ -164,7 +166,7 @@ const Home = () => {
                 group
                 min-h-[15px]
                 sm:min-h-[160px]
-                lg:h-[15px]
+                lg:min-h-[160px]
 
                 bg-[#f8eadc]
 
@@ -304,6 +306,7 @@ const Home = () => {
           <div className="flex items-center gap-2">
             <button
               type="button"
+              onClick={() => document.getElementById('artwork-grid')?.scrollIntoView({ behavior: 'smooth' })}
               className="flex h-9 items-center gap-2 rounded-lg bg-[#f2e6da] px-3.5 text-[11px] font-medium text-[#4c4540] transition hover:bg-[#eadacd]"
             >
               <SlidersHorizontal size={13} strokeWidth={1.8} />
@@ -312,6 +315,7 @@ const Home = () => {
 
             <button
               type="button"
+              onClick={() => navigate('/collections')}
               className="h-9 rounded-lg bg-[#a65335] px-4 text-[11px] font-semibold text-white transition hover:bg-[#91462d]"
             >
               View All (4,890)
@@ -320,7 +324,7 @@ const Home = () => {
         </div>
 
         {/* Artwork Grid */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div id="artwork-grid" className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {artworks.map((artwork) => (
             <ArtWorkCard
               key={artwork.title}

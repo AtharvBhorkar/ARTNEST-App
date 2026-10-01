@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title description">
+  <title id="title">ArtNest artwork placeholder</title>
+  <desc id="description">A hand-formed terracotta vase on a warm studio background.</desc>
+  <defs>
+    <linearGradient id="wall" x2="0" y2="1"><stop stop-color="#f7eee5"/><stop offset="1" stop-color="#e8d7c5"/></linearGradient>
+    <linearGradient id="clay" x2="1" y2="1"><stop stop-color="#bd7955"/><stop offset=".55" stop-color="#925335"/><stop offset="1" stop-color="#6d3b28"/></linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#wall)"/>
+  <path d="M0 480h800v120H0z" fill="#d3b99e"/>
+  <ellipse cx="405" cy="486" rx="147" ry="22" fill="#77523e" opacity=".2"/>
+  <path d="M355 177c0-27 21-48 48-48h8c27 0 48 21 48 48v28c0 24 13 47 30 69 20 27 32 58 32 98 0 76-59 112-114 112s-114-36-114-112c0-40 12-71 32-98 17-22 30-45 30-69z" fill="url(#clay)"/>
+  <path d="M355 178h104m-98 31c27 12 65 12 92 0" fill="none" stroke="#e1ae87" stroke-width="9" stroke-linecap="round" opacity=".7"/>
+  <path d="M326 300c42 24 116 24 158 0M312 348c51 23 135 23 186 0M318 399c47 22 127 22 174 0" fill="none" stroke="#d99b72" stroke-width="5" opacity=".55"/>
+  <text x="400" y="555" text-anchor="middle" fill="#684a39" font-family="Georgia,serif" font-size="22">ArtNest · Curated original art</text>
+</svg>

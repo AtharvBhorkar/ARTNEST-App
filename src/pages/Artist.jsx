@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
-const featuredMasters = [
+const initialFeaturedMasters = [
   {
+    id: 'fm1',
     name: "Elora Vance",
     specialty: "Sculptural Stoneware & Terracotta",
     location: "Provence, FR",
-    followers: "14.2k",
+    followersCount: 14200,
     artworks: "28",
     rating: "4.9★",
     profileImage: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=600",
@@ -16,10 +17,11 @@ const featuredMasters = [
     ]
   },
   {
+    id: 'fm2',
     name: "Mateo Rossi",
     specialty: "Abstract Expressionist Oils",
     location: "Florence, IT",
-    followers: "22.8k",
+    followersCount: 22800,
     artworks: "34",
     rating: "5.0★",
     profileImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600",
@@ -30,10 +32,11 @@ const featuredMasters = [
     ]
   },
   {
+    id: 'fm3',
     name: "Sylvan Zhou",
     specialty: "Architectural Wood & Bronze",
     location: "Kyoto, JP",
-    followers: "19.5k",
+    followersCount: 19500,
     artworks: "16",
     rating: "4.9★",
     profileImage: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=600",
@@ -45,12 +48,13 @@ const featuredMasters = [
   }
 ];
 
-const guildArtists = [
+const initialGuildArtists = [
   {
+    id: 'ga1',
     name: "Clara Miró",
     medium: "OIL PAINTING",
     location: "Barcelona, Spain",
-    followers: "8.4k",
+    followersCount: 8400,
     pieces: "19",
     rating: "4.9★",
     coverImage: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=600",
@@ -61,10 +65,11 @@ const guildArtists = [
     ]
   },
   {
+    id: 'ga2',
     name: "Alejandro Cruz",
     medium: "CERAMICS",
     location: "Oaxaca, Mexico",
-    followers: "11.3k",
+    followersCount: 11300,
     pieces: "24",
     rating: "4.9★",
     coverImage: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&q=80&w=600",
@@ -75,10 +80,11 @@ const guildArtists = [
     ]
   },
   {
+    id: 'ga3',
     name: "Hannah Berg",
     medium: "MARBLE & BRONZE",
     location: "Portland, USA",
-    followers: "9.7k",
+    followersCount: 9700,
     pieces: "15",
     rating: "4.8★",
     coverImage: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600",
@@ -89,10 +95,11 @@ const guildArtists = [
     ]
   },
   {
+    id: 'ga4',
     name: "Linus Aaberg",
     medium: "FINE ART PRINTS",
     location: "Copenhagen, DK",
-    followers: "7.2k",
+    followersCount: 7200,
     pieces: "32",
     rating: "5.0★",
     coverImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600",
@@ -103,10 +110,11 @@ const guildArtists = [
     ]
   },
   {
+    id: 'ga5',
     name: "Amina Diallo",
     medium: "TEXTILE & FIBER",
     location: "Dakar, Senegal",
-    followers: "15.1k",
+    followersCount: 15100,
     pieces: "12",
     rating: "4.9★",
     coverImage: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600",
@@ -117,10 +125,11 @@ const guildArtists = [
     ]
   },
   {
+    id: 'ga6',
     name: "Julien Moreau",
     medium: "OIL PAINTING",
     location: "Normandy, France",
-    followers: "6.8k",
+    followersCount: 6800,
     pieces: "21",
     rating: "4.8★",
     coverImage: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=600",
@@ -131,10 +140,11 @@ const guildArtists = [
     ]
   },
   {
+    id: 'ga7',
     name: "Mei-Ling Tan",
     medium: "CERAMICS",
     location: "Hsinchu, Taiwan",
-    followers: "18.4k",
+    followersCount: 18400,
     pieces: "18",
     rating: "5.0★",
     coverImage: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=600",
@@ -145,10 +155,11 @@ const guildArtists = [
     ]
   },
   {
+    id: 'ga8',
     name: "Rowan Campbell",
     medium: "WOODCRAFT",
     location: "Edinburgh, UK",
-    followers: "5.3k",
+    followersCount: 5300,
     pieces: "14",
     rating: "4.9★",
     coverImage: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=600",
@@ -160,9 +171,12 @@ const guildArtists = [
   }
 ];
 
-
 export default function MeetTheArtistsHeader() {
   const [selectedFilter, setSelectedFilter] = useState('All Disciplines');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState('Most Followed');
+  const [followedIds, setFollowedIds] = useState(new Set());
+  const [visibleGuildArtistsCount, setVisibleGuildArtistsCount] = useState(8);
 
   const filters = [
     'All Disciplines',
@@ -172,6 +186,86 @@ export default function MeetTheArtistsHeader() {
     'Mixed Media',
     'Minimalist Woodcraft',
   ];
+
+  // Utility helper to format followers nicely (e.g., 14200 -> "14.2k")
+  const formatFollowers = (count) => {
+    return count >= 1000 ? `${(count / 1000).toFixed(1)}k` : count.toString();
+  };
+
+  // Toggle follow status
+  const handleToggleFollow = (id) => {
+    setFollowedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
+
+  // Profile View action
+  const handleViewProfile = (artistName) => {
+    alert(`Navigating to ${artistName}'s atelier profile.`);
+  };
+
+  // Search Action
+  const handleSearchSubmit = (e) => {
+    if (e) e.preventDefault();
+    console.log('Performing search:', { searchQuery, selectedFilter, sortBy });
+  };
+
+  // Submit Atelier Dossier Action
+  const handleSubmitDossier = () => {
+    alert('Thank you for your interest! Opening the Atelier Dossier submission form.');
+  };
+
+  // Load More Artists Action
+  const handleLoadMore = () => {
+    setVisibleGuildArtistsCount((prev) => Math.min(prev + 4, initialGuildArtists.length));
+  };
+
+  // Filter & Sort Logic for Featured Masters
+  const filteredFeaturedMasters = initialFeaturedMasters.filter((master) => {
+    const query = searchQuery.toLowerCase();
+    const matchesSearch =
+      master.name.toLowerCase().includes(query) ||
+      master.specialty.toLowerCase().includes(query) ||
+      master.location.toLowerCase().includes(query);
+
+    let matchesFilter = true;
+    if (selectedFilter === 'Oil & Canvas') matchesFilter = master.specialty.toLowerCase().includes('oil');
+    else if (selectedFilter === 'Ceramics & Clay') matchesFilter = master.specialty.toLowerCase().includes('stoneware') || master.specialty.toLowerCase().includes('terracotta');
+    else if (selectedFilter === 'Bronze & Stone Sculptures') matchesFilter = master.specialty.toLowerCase().includes('bronze');
+    else if (selectedFilter === 'Minimalist Woodcraft') matchesFilter = master.specialty.toLowerCase().includes('wood');
+
+    return matchesSearch && matchesFilter;
+  });
+
+  // Filter & Sort Logic for Guild Artists
+  const filteredGuildArtists = initialGuildArtists
+    .filter((artist) => {
+      const query = searchQuery.toLowerCase();
+      const matchesSearch =
+        artist.name.toLowerCase().includes(query) ||
+        artist.medium.toLowerCase().includes(query) ||
+        artist.location.toLowerCase().includes(query);
+
+      let matchesFilter = true;
+      if (selectedFilter === 'Oil & Canvas') matchesFilter = artist.medium === 'OIL PAINTING';
+      else if (selectedFilter === 'Ceramics & Clay') matchesFilter = artist.medium === 'CERAMICS';
+      else if (selectedFilter === 'Bronze & Stone Sculptures') matchesFilter = artist.medium === 'MARBLE & BRONZE';
+      else if (selectedFilter === 'Minimalist Woodcraft') matchesFilter = artist.medium === 'WOODCRAFT';
+
+      return matchesSearch && matchesFilter;
+    })
+    .sort((a, b) => {
+      if (sortBy === 'Most Followed') return b.followersCount - a.followersCount;
+      if (sortBy === 'Highest Rated') return parseFloat(b.rating) - parseFloat(a.rating);
+      if (sortBy === 'Catalogue Depth') return parseInt(b.pieces) - parseInt(a.pieces);
+      return 0;
+    });
 
   return (
     <>
@@ -197,7 +291,7 @@ export default function MeetTheArtistsHeader() {
           </div>
 
           {/* Floating Search & Filter Bar */}
-          <div className="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-neutral-100 flex flex-col gap-4">
+          <form onSubmit={handleSearchSubmit} className="bg-white rounded-2xl p-4 sm:p-5 shadow-xs border border-neutral-100 flex flex-col gap-4">
             
             {/* Top Controls: Search Input + Dropdown + Search Button */}
             <div className="flex flex-col md:flex-row items-stretch gap-3">
@@ -211,6 +305,8 @@ export default function MeetTheArtistsHeader() {
                 </div>
                 <input
                   type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search artists by name, style, or medium..."
                   className="w-full bg-[#FAF0E6] text-neutral-800 placeholder-neutral-400 text-xs sm:text-sm rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:ring-1 focus:ring-[#7C3F28] transition-all"
                 />
@@ -218,11 +314,15 @@ export default function MeetTheArtistsHeader() {
 
               {/* Sort Dropdown */}
               <div className="relative">
-                <select className="appearance-none bg-[#FAF0E6] text-neutral-700 text-xs sm:text-sm font-medium rounded-lg pl-8 pr-8 py-3 w-full md:w-auto focus:outline-none focus:ring-1 focus:ring-[#7C3F28] cursor-pointer">
-                  <option>Most Followed</option>
-                  <option>Highest Rated</option>
-                  <option>Newest Ateliers</option>
-                  <option>Catalogue Depth</option>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="appearance-none bg-[#FAF0E6] text-neutral-700 text-xs sm:text-sm font-medium rounded-lg pl-8 pr-8 py-3 w-full md:w-auto focus:outline-none focus:ring-1 focus:ring-[#7C3F28] cursor-pointer"
+                >
+                  <option value="Most Followed">Most Followed</option>
+                  <option value="Highest Rated">Highest Rated</option>
+                  <option value="Newest Ateliers">Newest Ateliers</option>
+                  <option value="Catalogue Depth">Catalogue Depth</option>
                 </select>
                 
                 {/* Sort Icon Left */}
@@ -241,7 +341,10 @@ export default function MeetTheArtistsHeader() {
               </div>
 
               {/* Primary Search Button */}
-              <button className="bg-[#7C3F28] hover:bg-[#66321F] text-white text-xs sm:text-sm font-medium px-6 py-3 rounded-lg flex items-center justify-center gap-2 transition-colors shadow-xs">
+              <button
+                type="submit"
+                className="bg-[#7C3F28] hover:bg-[#66321F] text-white text-xs sm:text-sm font-medium px-6 py-3 rounded-lg flex items-center justify-center gap-2 transition-colors shadow-xs cursor-pointer"
+              >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
@@ -261,8 +364,9 @@ export default function MeetTheArtistsHeader() {
                 return (
                   <button
                     key={filter}
+                    type="button"
                     onClick={() => setSelectedFilter(filter)}
-                    className={`text-xs px-3.5 py-1.5 rounded-full transition-colors font-medium ${
+                    className={`text-xs px-3.5 py-1.5 rounded-full transition-colors font-medium cursor-pointer ${
                       isActive
                         ? 'bg-neutral-900 text-white'
                         : 'bg-[#FAF0E6] text-neutral-700 hover:bg-[#F2E3D5]'
@@ -274,7 +378,7 @@ export default function MeetTheArtistsHeader() {
               })}
             </div>
 
-          </div>
+          </form>
 
         </div>
       </section>
@@ -299,98 +403,109 @@ export default function MeetTheArtistsHeader() {
 
           {/* Featured Masters Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {featuredMasters.map((master, index) => (
-              <div 
-                key={index} 
-                className="bg-white rounded-2xl p-4 shadow-sm border border-neutral-100/80 flex flex-col justify-between"
-              >
-                <div>
-                  {/* Main Profile Cover Image */}
-                  <div className="relative h-64 w-full rounded-xl overflow-hidden mb-4">
-                    <img
-                      src={master.profileImage}
-                      alt={master.name}
-                      className="w-full h-full object-cover"
-                    />
-                    {/* Badge */}
-                    <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-full flex items-center gap-1.5 shadow-xs">
-                      <span className="w-2 h-2 rounded-full bg-[#7C3F28]"></span>
-                      <span className="text-[10px] font-bold tracking-wider text-neutral-700 uppercase">
-                        Featured Master
-                      </span>
-                    </div>
-                  </div>
+            {filteredFeaturedMasters.map((master) => {
+              const isFollowing = followedIds.has(master.id);
+              const currentFollowersCount = isFollowing ? master.followersCount + 1 : master.followersCount;
 
-                  {/* Name & Location Bar */}
-                  <div className="flex justify-between items-start mb-1">
-                    <h3 className="text-xl font-serif font-semibold text-neutral-900 leading-snug">
-                      {master.name}
-                    </h3>
-                    <div className="flex items-center gap-1 bg-[#FAF0E6] text-[#7C3F28] px-2 py-0.5 rounded-full text-[10px] font-medium">
-                      <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                      <span>{master.location}</span>
+              return (
+                <div 
+                  key={master.id} 
+                  className="bg-white rounded-2xl p-4 shadow-xs border border-neutral-100/80 flex flex-col justify-between"
+                >
+                  <div>
+                    {/* Main Profile Cover Image */}
+                      <div className="artwork-card-media !aspect-[4/3] rounded-xl mb-3">
+                      <img
+                        src={master.profileImage}
+                        alt={master.name}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
-                  </div>
 
-                  <p className="text-xs text-neutral-500 mb-4 font-medium">
-                    {master.specialty}
-                  </p>
-
-                  {/* Stats Bar */}
-                  <div className="bg-[#FAF0E6]/70 rounded-xl p-3 flex justify-around items-center text-center mb-5 border border-[#F3E7DB]">
-                    <div>
-                      <div className="text-sm font-semibold text-neutral-900">{master.followers}</div>
-                      <div className="text-[9px] text-neutral-400 font-semibold tracking-wider uppercase">Followers</div>
-                    </div>
-                    <div className="h-6 w-[1px] bg-neutral-200/60"></div>
-                    <div>
-                      <div className="text-sm font-semibold text-neutral-900">{master.artworks}</div>
-                      <div className="text-[9px] text-neutral-400 font-semibold tracking-wider uppercase">Artworks</div>
-                    </div>
-                    <div className="h-6 w-[1px] bg-neutral-200/60"></div>
-                    <div>
-                      <div className="text-sm font-semibold text-neutral-900">{master.rating}</div>
-                      <div className="text-[9px] text-neutral-400 font-semibold tracking-wider uppercase">Rating</div>
-                    </div>
-                  </div>
-
-                  {/* Selected Works Label */}
-                  <span className="text-[10px] font-bold text-neutral-400 tracking-wider uppercase block mb-2">
-                    Selected Works
-                  </span>
-
-                  {/* Selected Works Thumbnails */}
-                  <div className="grid grid-cols-3 gap-2 mb-6">
-                    {master.selectedWorks.map((workImg, imgIdx) => (
-                      <div key={imgIdx} className="h-20 rounded-lg overflow-hidden bg-neutral-100">
-                        <img
-                          src={workImg}
-                          alt={`Work ${imgIdx + 1}`}
-                          className="w-full h-full object-cover"
-                        />
+                    {/* Name & Location Bar */}
+                    <span className="artwork-card-label mb-2">Featured Master</span>
+                    <div className="flex justify-between items-start mb-1">
+                      <h3 className="text-xl font-serif font-semibold text-neutral-900 leading-snug">
+                        {master.name}
+                      </h3>
+                      <div className="flex items-center gap-1 bg-[#FAF0E6] text-[#7C3F28] px-2 py-0.5 rounded-full text-[10px] font-medium">
+                        <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span>{master.location}</span>
                       </div>
-                    ))}
+                    </div>
+
+                    <p className="text-xs text-neutral-500 mb-4 font-medium">
+                      {master.specialty}
+                    </p>
+
+                    {/* Stats Bar */}
+                    <div className="bg-[#FAF0E6]/70 rounded-xl p-3 flex justify-around items-center text-center mb-5 border border-[#F3E7DB]">
+                      <div>
+                        <div className="text-sm font-semibold text-neutral-900">{formatFollowers(currentFollowersCount)}</div>
+                        <div className="text-[9px] text-neutral-400 font-semibold tracking-wider uppercase">Followers</div>
+                      </div>
+                      <div className="h-6 w-[1px] bg-neutral-200/60"></div>
+                      <div>
+                        <div className="text-sm font-semibold text-neutral-900">{master.artworks}</div>
+                        <div className="text-[9px] text-neutral-400 font-semibold tracking-wider uppercase">Artworks</div>
+                      </div>
+                      <div className="h-6 w-[1px] bg-neutral-200/60"></div>
+                      <div>
+                        <div className="text-sm font-semibold text-neutral-900">{master.rating}</div>
+                        <div className="text-[9px] text-neutral-400 font-semibold tracking-wider uppercase">Rating</div>
+                      </div>
+                    </div>
+
+                    {/* Selected Works Label */}
+                    <span className="text-[10px] font-bold text-neutral-400 tracking-wider uppercase block mb-2">
+                      Selected Works
+                    </span>
+
+                    {/* Selected Works Thumbnails */}
+                    <div className="grid grid-cols-3 gap-2 mb-6">
+                      {master.selectedWorks.map((workImg, imgIdx) => (
+                        <div key={imgIdx} className="h-20 rounded-lg overflow-hidden bg-neutral-100">
+                          <img
+                            src={workImg}
+                            alt={`Selected artwork ${imgIdx + 1} by ${master.name}`}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
 
-                {/* Action Buttons */}
-                <div className="flex gap-2">
-                  <button className="flex-1 bg-[#FAF0E6] hover:bg-[#F2E3D5] text-neutral-800 text-xs font-semibold py-2.5 rounded-lg transition-colors flex items-center justify-center gap-1.5">
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                    </svg>
-                    Follow
-                  </button>
-                  <button className="flex-1 bg-[#7C3F28] hover:bg-[#66321F] text-white text-xs font-semibold py-2.5 rounded-lg transition-colors text-center shadow-xs">
-                    View Profile
-                  </button>
-                </div>
+                  {/* Action Buttons */}
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleToggleFollow(master.id)}
+                      className={`flex-1 text-xs font-semibold py-2.5 rounded-lg transition-colors flex items-center justify-center gap-1.5 cursor-pointer ${
+                        isFollowing
+                          ? 'bg-neutral-800 text-white hover:bg-neutral-900'
+                          : 'bg-[#FAF0E6] hover:bg-[#F2E3D5] text-neutral-800'
+                      }`}
+                    >
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                      </svg>
+                      {isFollowing ? 'Following' : 'Follow'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleViewProfile(master.name)}
+                      className="flex-1 bg-[#7C3F28] hover:bg-[#66321F] text-white text-xs font-semibold py-2.5 rounded-lg transition-colors text-center shadow-xs cursor-pointer"
+                    >
+                      View Profile
+                    </button>
+                  </div>
 
-              </div>
-            ))}
+                </div>
+              );
+            })}
           </div>
 
           {/* Bottom Integrity Guarantee Banner */}
@@ -427,158 +542,185 @@ export default function MeetTheArtistsHeader() {
       </section>
 
       <section className="bg-[#FAF4ED] min-h-screen py-12 px-4 sm:px-6 lg:px-12 font-sans text-neutral-800">
-      <div className="max-w-7xl mx-auto">
-        
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-2">
-          <div>
-            <span className="text-[10px] font-semibold tracking-widest text-neutral-400 uppercase block mb-1">
-              REGISTRY INDEX
+        <div className="max-w-7xl mx-auto">
+          
+          {/* Header */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-2">
+            <div>
+              <span className="text-[10px] font-semibold tracking-widest text-neutral-400 uppercase block mb-1">
+                REGISTRY INDEX
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-serif text-neutral-900 font-medium">
+                All Guild Artists
+              </h2>
+            </div>
+            <span className="text-xs text-neutral-400">
+              Showing <strong className="text-neutral-700 font-semibold">{Math.min(visibleGuildArtistsCount, filteredGuildArtists.length)} of {initialGuildArtists.length}</strong> accredited practitioners
             </span>
-            <h2 className="text-2xl sm:text-3xl font-serif text-neutral-900 font-medium">
-              All Guild Artists
-            </h2>
           </div>
-          <span className="text-xs text-neutral-400">
-            Showing <strong className="text-neutral-700 font-semibold">12 of 148</strong> accredited practitioners
-          </span>
-        </div>
 
-        {/* 4-Column Artists Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
-          {guildArtists.map((artist, index) => (
-            <div 
-              key={index} 
-              className="bg-white rounded-xl p-3.5 shadow-xs border border-neutral-100/70 flex flex-col justify-between"
-            >
-              <div>
-                {/* Artist Cover Image */}
-                <div className="h-44 w-full rounded-lg overflow-hidden mb-3 bg-neutral-100">
-                  <img
-                    src={artist.coverImage}
-                    alt={artist.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+          {/* 4-Column Artists Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+            {filteredGuildArtists.slice(0, visibleGuildArtistsCount).map((artist) => {
+              const isFollowing = followedIds.has(artist.id);
+              const currentFollowersCount = isFollowing ? artist.followersCount + 1 : artist.followersCount;
 
-                {/* Name & Medium Badge */}
-                <div className="flex items-center justify-between gap-1 mb-1">
-                  <h3 className="text-sm font-serif font-semibold text-neutral-900 truncate">
-                    {artist.name}
-                  </h3>
-                  <span className="bg-[#FAF0E6] text-[#A86146] text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider shrink-0">
-                    {artist.medium}
-                  </span>
-                </div>
-
-                {/* Location */}
-                <div className="flex items-center gap-1 text-[11px] text-neutral-400 mb-3">
-                  <svg className="w-2.5 h-2.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <span className="truncate">{artist.location}</span>
-                </div>
-
-                {/* Stats Bar */}
-                <div className="bg-[#FAF0E6]/60 rounded-md p-2 flex justify-between items-center text-center mb-3 text-[10px]">
+              return (
+                <div 
+                  key={artist.id} 
+                  className="bg-white rounded-xl p-3.5 shadow-xs border border-neutral-100/70 flex flex-col justify-between"
+                >
                   <div>
-                    <div className="font-semibold text-neutral-800 leading-tight">{artist.followers}</div>
-                    <div className="text-[8px] text-neutral-400 uppercase tracking-wider font-medium">FOLLOWERS</div>
-                  </div>
-                  <div className="h-4 w-[1px] bg-neutral-200"></div>
-                  <div>
-                    <div className="font-semibold text-neutral-800 leading-tight">{artist.pieces}</div>
-                    <div className="text-[8px] text-neutral-400 uppercase tracking-wider font-medium">PIECES</div>
-                  </div>
-                  <div className="h-4 w-[1px] bg-neutral-200"></div>
-                  <div>
-                    <div className="font-semibold text-neutral-800 leading-tight">{artist.rating}</div>
-                    <div className="text-[8px] text-neutral-400 uppercase tracking-wider font-medium">RATING</div>
-                  </div>
-                </div>
-
-                {/* Thumbnails */}
-                <div className="grid grid-cols-3 gap-1.5 mb-3">
-                  {artist.thumbnails.map((thumb, tIdx) => (
-                    <div key={tIdx} className="h-12 rounded overflow-hidden bg-neutral-100">
+                    {/* Artist Cover Image */}
+                    <div className="h-44 w-full rounded-lg overflow-hidden mb-3 bg-neutral-100">
                       <img
-                        src={thumb}
-                        alt="Work preview"
+                        src={artist.coverImage}
+                        alt={artist.name}
                         className="w-full h-full object-cover"
                       />
                     </div>
-                  ))}
+
+                    {/* Name & Medium Badge */}
+                    <div className="flex items-center justify-between gap-1 mb-1">
+                      <h3 className="text-sm font-serif font-semibold text-neutral-900 truncate">
+                        {artist.name}
+                      </h3>
+                      <span className="bg-[#FAF0E6] text-[#A86146] text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider shrink-0">
+                        {artist.medium}
+                      </span>
+                    </div>
+
+                    {/* Location */}
+                    <div className="flex items-center gap-1 text-[11px] text-neutral-400 mb-3">
+                      <svg className="w-2.5 h-2.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      <span className="truncate">{artist.location}</span>
+                    </div>
+
+                    {/* Stats Bar */}
+                    <div className="bg-[#FAF0E6]/60 rounded-md p-2 flex justify-between items-center text-center mb-3 text-[10px]">
+                      <div>
+                        <div className="font-semibold text-neutral-800 leading-tight">{formatFollowers(currentFollowersCount)}</div>
+                        <div className="text-[8px] text-neutral-400 uppercase tracking-wider font-medium">FOLLOWERS</div>
+                      </div>
+                      <div className="h-4 w-[1px] bg-neutral-200"></div>
+                      <div>
+                        <div className="font-semibold text-neutral-800 leading-tight">{artist.pieces}</div>
+                        <div className="text-[8px] text-neutral-400 uppercase tracking-wider font-medium">PIECES</div>
+                      </div>
+                      <div className="h-4 w-[1px] bg-neutral-200"></div>
+                      <div>
+                        <div className="font-semibold text-neutral-800 leading-tight">{artist.rating}</div>
+                        <div className="text-[8px] text-neutral-400 uppercase tracking-wider font-medium">RATING</div>
+                      </div>
+                    </div>
+
+                    {/* Thumbnails */}
+                    <div className="grid grid-cols-3 gap-1.5 mb-3">
+                      {artist.thumbnails.map((thumb, tIdx) => (
+                        <div key={tIdx} className="h-12 rounded overflow-hidden bg-neutral-100">
+                          <img
+                            src={thumb}
+                            alt={`Artwork detail ${tIdx + 1} by ${artist.name}`}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Card Footer Actions */}
+                  <div className="flex gap-1.5 pt-1">
+                    <button
+                      type="button"
+                      onClick={() => handleToggleFollow(artist.id)}
+                      className={`p-2 rounded-md transition-colors flex items-center justify-center shrink-0 cursor-pointer ${
+                        isFollowing
+                          ? 'bg-neutral-800 text-white hover:bg-neutral-900'
+                          : 'bg-[#FAF0E6] hover:bg-[#F2E3D5] text-neutral-700'
+                      }`}
+                      title={isFollowing ? 'Unfollow' : 'Follow'}
+                    >
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleViewProfile(artist.name)}
+                      className="flex-1 bg-[#FAF0E6] hover:bg-[#F2E3D5] text-neutral-800 text-[11px] font-medium py-1.5 rounded-md transition-colors text-center cursor-pointer"
+                    >
+                      View Profile
+                    </button>
+                  </div>
+
                 </div>
-              </div>
+              );
+            })}
+          </div>
 
-              {/* Card Footer Actions */}
-              <div className="flex gap-1.5 pt-1">
-                <button className="bg-[#FAF0E6] hover:bg-[#F2E3D5] text-neutral-700 p-2 rounded-md transition-colors flex items-center justify-center shrink-0">
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                  </svg>
-                </button>
-                <button className="flex-1 bg-[#FAF0E6] hover:bg-[#F2E3D5] text-neutral-800 text-[11px] font-medium py-1.5 rounded-md transition-colors text-center">
-                  View Profile
-                </button>
-              </div>
-
+          {/* Load More Button */}
+          {visibleGuildArtistsCount < filteredGuildArtists.length && (
+            <div className="flex justify-center">
+              <button
+                type="button"
+                onClick={handleLoadMore}
+                className="bg-[#FAF0E6] hover:bg-[#F2E3D5] text-neutral-700 text-xs font-medium px-5 py-2.5 rounded-lg transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
+                Load More Artists <span className="text-neutral-400">(showing {visibleGuildArtistsCount} of {filteredGuildArtists.length})</span>
+              </button>
             </div>
-          ))}
+          )}
+
         </div>
+      </section>
 
-        {/* Load More Button */}
-        <div className="flex justify-center">
-          <button className="bg-[#FAF0E6] hover:bg-[#F2E3D5] text-neutral-700 text-xs font-medium px-5 py-2.5 rounded-lg transition-colors inline-flex items-center gap-1.5">
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-            </svg>
-            Load More Artists <span className="text-neutral-400">(showing 12 of 148)</span>
-          </button>
-        </div>
-
-      </div>
-    </section>
-
-    <section className="bg-[#FAF5EE] min-h-[300px] py-12 px-4 sm:px-6 lg:px-8 font-sans">
-      <div className="max-w-6xl mx-auto">
-        
-        {/* Top Centered Subtitle */}
-        <p className="text-center text-[10px] sm:text-xs font-semibold tracking-widest text-neutral-400 uppercase mb-8">
-          CURATED WEEKLY ADDITIONS FROM INDEPENDENT WORKSHOPS
-        </p>
-
-        {/* Call to Action Container */}
-        <div className="bg-[#FFF4E8] rounded-2xl p-8 sm:p-10 lg:p-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 shadow-xs">
+      <section className="bg-[#FAF5EE] min-h-[300px] py-12 px-4 sm:px-6 lg:px-8 font-sans">
+        <div className="max-w-6xl mx-auto">
           
-          {/* Left Text Content */}
-          <div className="max-w-2xl">
-            <span className="text-[11px] font-bold tracking-wider text-[#A6613F] uppercase block mb-2">
-              FOR MASTER ARTISANS
-            </span>
-            
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif text-neutral-900 leading-snug mb-3">
-              Are you an independent artist or sculptor?
-            </h2>
-            
-            <p className="text-sm sm:text-base text-neutral-600 leading-relaxed">
-              Join the ArtNest Guild. We offer museum-level curatorial support, worldwide collector distribution, and wax-sealed physical provenance documentation.
-            </p>
-          </div>
+          {/* Top Centered Subtitle */}
+          <p className="text-center text-[10px] sm:text-xs font-semibold tracking-widest text-neutral-400 uppercase mb-8">
+            CURATED WEEKLY ADDITIONS FROM INDEPENDENT WORKSHOPS
+          </p>
 
-          {/* Right Action Button */}
-          <div className="shrink-0 w-full md:w-auto">
-            <button className="w-full md:w-auto bg-[#823A21] hover:bg-[#6D301B] text-white text-sm font-medium py-3.5 px-7 rounded-xl transition-colors shadow-xs">
-              Submit Atelier Dossier
-            </button>
-          </div>
+          {/* Call to Action Container */}
+          <div className="bg-[#FFF4E8] rounded-2xl p-8 sm:p-10 lg:p-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 shadow-xs">
+            
+            {/* Left Text Content */}
+            <div className="max-w-2xl">
+              <span className="text-[11px] font-bold tracking-wider text-[#A6613F] uppercase block mb-2">
+                FOR MASTER ARTISANS
+              </span>
+              
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif text-neutral-900 leading-snug mb-3">
+                Are you an independent artist or sculptor?
+              </h2>
+              
+              <p className="text-sm sm:text-base text-neutral-600 leading-relaxed">
+                Join the ArtNest Guild. We offer museum-level curatorial support, worldwide collector distribution, and wax-sealed physical provenance documentation.
+              </p>
+            </div>
 
+            {/* Right Action Button */}
+            <div className="shrink-0 w-full md:w-auto">
+              <button
+                type="button"
+                onClick={handleSubmitDossier}
+                className="w-full md:w-auto bg-[#823A21] hover:bg-[#6D301B] text-white text-sm font-medium py-3.5 px-7 rounded-xl transition-colors shadow-xs cursor-pointer"
+              >
+                Submit Atelier Dossier
+              </button>
+            </div>
+
+          </div>
+          
         </div>
-        
-      </div>
-    </section>
-
+      </section>
     </>
   );
 }

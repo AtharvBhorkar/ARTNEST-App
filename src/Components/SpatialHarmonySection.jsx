@@ -1,24 +1,26 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function SpatialHarmonySection() {
+  const navigate = useNavigate();
   const triadItems = [
     {
       number: 1,
       title: "Focal Wall Canvas",
       subtitle: "Anchors sightline & room scale",
-      price: "€2,450",
+      price: "₹2,450",
     },
     {
       number: 2,
       title: "Pedestal Totem Sculpture",
       subtitle: "Introduces tactile vertical shadow",
-      price: "€1,180",
+      price: "₹1,180",
     },
     {
       number: 3,
       title: "Tabletop Ceramic Vessel",
       subtitle: "Grounded intimate tactile touchpoint",
-      price: "€460",
+      price: "₹460",
     },
   ];
 
@@ -142,11 +144,11 @@ export default function SpatialHarmonySection() {
                     Full Ensemble Bundle (Saves 10%)
                   </span>
                   <span className="text-2xl font-serif font-medium text-neutral-900">
-                    €3,680
+                    ₹3,680
                   </span>
                 </div>
 
-                <button className="bg-[#7C3F28] hover:bg-[#653220] transition-colors text-white text-xs font-medium px-5 py-3 rounded-lg flex items-center justify-center gap-2 shadow-sm">
+                <button type="button" onClick={() => navigate('/profile')} className="bg-[#7C3F28] hover:bg-[#653220] transition-colors text-white text-xs font-medium px-5 py-3 rounded-lg flex items-center justify-center gap-2 shadow-sm">
                   <svg
                     className="w-3.5 h-3.5"
                     fill="none"
