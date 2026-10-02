@@ -10,7 +10,7 @@ const links = [
   ["About", "/about"],
 ];
 
-export default function Navbar() {
+export default function Navbar({ cartCount = 0 }) {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const go = (path) => {
@@ -42,8 +42,13 @@ export default function Navbar() {
           <button type="button" onClick={() => go("/profile")} aria-label="Open wishlist" className="nav-icon-button nav-desktop-action">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 8.8c0 5.5-8.8 10.2-8.8 10.2S3.2 14.3 3.2 8.8A4.8 4.8 0 0 1 8 4c1.5 0 3 .7 4 2 1-1.3 2.5-2 4-2a4.8 4.8 0 0 1 4.8 4.8Z" /></svg>
           </button>
-          <button type="button" onClick={() => go("/profile")} aria-label="Open shopping bag" className="nav-icon-button nav-desktop-action">
+          <button type="button" onClick={() => go("/profile")} aria-label="Open shopping bag" className="nav-icon-button nav-desktop-action relative">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8Z" /><path d="M9 8V6a3 3 0 0 1 6 0v2" /></svg>
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#a65335] px-1 text-[10px] font-semibold text-white">
+                {cartCount}
+              </span>
+            )}
           </button>
           <NavLink to="/profile" className="site-avatar" aria-label="Profile">AN</NavLink>
           <button type="button" className="nav-menu-toggle" aria-label={menuOpen ? "Close menu" : "Open menu"}

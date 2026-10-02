@@ -15,6 +15,7 @@ const artworks = [
     title: "Tectonic Equilibrium",
     artist: "Matteo Bellini",
     medium: "Hand-carved Carrara Travertine & Alabaster",
+    category: "Travertine & Marble",
     badge: "1/1 Unique Masterpiece",
     location: "Carrara, Italy",
     delivery: "White-Glove Crated",
@@ -27,6 +28,7 @@ const artworks = [
     title: "Volcanic Relic Amphora",
     artist: "Kenzo Takahashi",
     medium: "Wood-fired Stoneware & Natural Ash Glaze",
+    category: "Stoneware & Terracotta",
     badge: "Kiln Fired Unique",
     location: "Kyoto, Japan",
     delivery: "Ready to Dispatch",
@@ -39,6 +41,7 @@ const artworks = [
     title: "Silent Relief No. IX",
     artist: "Astrid Lindholm",
     medium: "Architectural Plaster & Earthen Wax Bas-Relief",
+    category: "Architectural Bas-Relief",
     badge: "Wall Sculpture",
     location: "Stockholm, Sweden",
     delivery: "Architectural Mount",
@@ -51,6 +54,7 @@ const artworks = [
     title: "Equilibrium Vessel II",
     artist: "Mateo Morales",
     medium: "Smoked Terracotta & Basalt Core",
+    category: "Stoneware & Terracotta",
     badge: "Artisan Signed",
     location: "Oaxaca, Mexico",
     delivery: "Foundry Mark Included",
@@ -63,6 +67,7 @@ const artworks = [
     title: "Monolith of Carrara VII",
     artist: "Matteo Bellini",
     medium: "Honed Alabaster & Raw Marble",
+    category: "Travertine & Marble",
     badge: "Curator Pick",
     location: "Carrara, Italy",
     delivery: "Authenticated",
@@ -75,6 +80,7 @@ const artworks = [
     title: "Strata Totem No. 3",
     artist: "Julian Davies",
     medium: "Bronze Cast & Chiseled Ironwood",
+    category: "Cast Bronze",
     badge: "Limited Edition 2/5",
     location: "London, UK",
     delivery: "Foundry Certificate",
@@ -127,10 +133,21 @@ const guarantees = [
   }
 ];
 
-export default function SculpturesGalleryHeader() {
+export default function SculpturesGalleryHeader({ onAddToCart }) {
   const navigate = useNavigate();
   const [selectedMedia, setSelectedMedia] = useState(0);
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
+  const [selectedArtwork, setSelectedArtwork] = useState(null);
+
+  const filteredArtworks = selectedMedia === 0
+    ? artworks
+    : artworks.filter((item) => item.category === mediaCategories[selectedMedia].name);
+
+  const handleAddToCart = (item) => {
+    if (onAddToCart) {
+      onAddToCart(item);
+    }
+  };
 
   return (
     <div className="bg-[#FAF4ED] min-h-screen">
@@ -302,7 +319,7 @@ export default function SculpturesGalleryHeader() {
               ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" 
               : "flex flex-col gap-6"
           }>
-            {artworks.map((item, index) => (
+            {filteredArtworks.map((item, index) => (
               <div 
                 key={index} 
                 className="bg-[#FFF8F2] rounded-2xl p-4 shadow-xs border border-neutral-100 flex flex-col justify-between"
@@ -356,7 +373,7 @@ export default function SculpturesGalleryHeader() {
                   </div>
                 </div>
 
-                <div className="flex items-end justify-between pt-1 px-1">
+                <div className="flex items-end justify-between pt-1 px-1 gap-2">
                   <div>
                     <div className="text-[9px] text-neutral-400 font-medium mb-0.5">
                       {item.dimensions}
@@ -366,21 +383,68 @@ export default function SculpturesGalleryHeader() {
                     </div>
                   </div>
 
-                  <button type="button" onClick={() => alert(`Added ${item.title} to your bag.`)}
-                    className={`text-xs font-medium px-4 py-2 rounded-lg transition-colors shadow-2xs ${
-                      item.primaryCta
-                        ? 'bg-[#823A21] hover:bg-[#6D301B] text-white'
-                        : 'bg-[#F4E6D9] hover:bg-[#EBD8C8] text-neutral-800'
-                    }`}
-                  >
-                    Acquire Work
-                  </button>
+                  <div className="flex flex-col gap-2 sm:flex-row">
+                    <button type="button" onClick={() => setSelectedArtwork(item)}
+                      className="text-xs font-medium px-3 py-2 rounded-lg transition-colors bg-white text-neutral-800 border border-neutral-200 hover:bg-neutral-50"
+                    >
+                      View Artwork
+                    </button>
+                    <button type="button" onClick={() => handleAddToCart(item)}
+                      className={`text-xs font-medium px-4 py-2 rounded-lg transition-colors shadow-2xs ${
+                        item.primaryCta
+                          ? 'bg-[#823A21] hover:bg-[#6D301B] text-white'
+                          : 'bg-[#F4E6D9] hover:bg-[#EBD8C8] text-neutral-800'
+                      }`}
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
       </section>
+
+      {selectedArtwork && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1f1a17]/55 p-4 backdrop-blur-[2px]" onClick={() => setSelectedArtwork(null)}>
+          <div className="w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-2xl" onClick={(event) => event.stopPropagation()}>
+            <div className="relative">
+              <img src={selectedArtwork.image} alt={selectedArtwork.title} className="h-72 w-full object-cover" />
+              <button
+                type="button"
+                aria-label="Close artwork details"
+                onClick={() => setSelectedArtwork(null)}
+                className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-[#3d2c26] shadow-sm"
+              >
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="space-y-4 p-6">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <span className="artwork-card-label">{selectedArtwork.badge}</span>
+                  <h3 className="mt-3 font-serif text-3xl text-[#171717]">{selectedArtwork.title}</h3>
+                  <p className="mt-1 text-sm text-[#746b65]">{selectedArtwork.artist}</p>
+                </div>
+                <p className="text-xl font-semibold text-[#a34f32]">{selectedArtwork.price}</p>
+              </div>
+              <p className="text-sm leading-6 text-[#564d48]">{selectedArtwork.medium} · {selectedArtwork.dimensions}</p>
+              <p className="text-sm text-[#564d48]">{selectedArtwork.delivery} · {selectedArtwork.location}</p>
+              <div className="flex gap-3 pt-2">
+                <button type="button" onClick={() => { handleAddToCart(selectedArtwork); setSelectedArtwork(null); }} className="flex-1 rounded-lg bg-[#a65335] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#8f4b2d]">
+                  Add to Cart
+                </button>
+                <button type="button" onClick={() => setSelectedArtwork(null)} className="flex-1 rounded-lg border border-[#e9dacc] bg-[#f7efe9] px-4 py-3 text-sm font-semibold text-[#4b342d] transition hover:bg-[#f1e2d4]">
+                  Continue Browsing
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-12 lg:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">

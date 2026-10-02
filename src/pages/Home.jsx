@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 import Hero from '../Components/Hero'
 import { IoMdBrush } from "react-icons/io";
 import { IoCameraOutline } from "react-icons/io5";
@@ -111,8 +111,19 @@ const artworks = [
   },
 ];
 
-const Home = () => {
+const Home = ({ onAddToCart }) => {
   const navigate = useNavigate();
+  const [selectedMedium, setSelectedMedium] = useState('All');
+
+  const categoryOptions = useMemo(() => ['All', ...mediums.map((medium) => medium.name)], []);
+
+  const filteredArtworks = useMemo(() => {
+    if (selectedMedium === 'All') return artworks;
+    return artworks.filter((artwork) =>
+      artwork.medium.toLowerCase().includes(selectedMedium.toLowerCase())
+    );
+  }, [selectedMedium]);
+
   return (
     <div>
       <Hero/>
@@ -159,120 +170,99 @@ const Home = () => {
           "
         >
 
-          {mediums.map((medium, index) => (
-            <div
-              key={index}
-              className="
-                group
-                min-h-[15px]
-                sm:min-h-[160px]
-                lg:min-h-[160px]
+          {mediums.map((medium, index) => {
+            const isSelected = selectedMedium === medium.name;
 
-                bg-[#f8eadc]
-
-                rounded-[10px]
-
-                flex
-                flex-col
-                items-center
-                justify-center
-
-                px-3
-
-                transition-all
-                duration-300
-
-                hover:-translate-y-1
-                hover:shadow-[0_10px_25px_rgba(80,50,30,0.10)]
-
-                cursor-pointer
-              "
-            >
-
-              {/* Icon Container */}
-              <div
-                className="
-                  w-[56px]
-                  h-[56px]
-
-                  sm:w-[58px]
-                  sm:h-[58px]
-
-                  bg-white
-
-                  rounded-[17px]
-
-                  flex
-                  items-center
-                  justify-center
-
-                  shadow-[0_2px_5px_rgba(80,50,30,0.08)]
-
-                  mb-4
-
-                  text-[#984c30]
-
-                  transition-transform
-                  duration-300
-
-                  group-hover:scale-105
-                "
+            return (
+              <button
+                key={index}
+                type="button"
+                onClick={() => setSelectedMedium(isSelected ? 'All' : medium.name)}
+                className={
+                  `group min-h-[15px] sm:min-h-[160px] lg:min-h-[160px] rounded-[10px] flex flex-col items-center justify-center px-3 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_25px_rgba(80,50,30,0.10)] cursor-pointer ${
+                    isSelected ? 'bg-[#efe0d2] ring-2 ring-[#a65335]' : 'bg-[#f8eadc]'
+                  }`
+                }
               >
-                <span
-                  className={`
-                    ${
-                      medium.name === "Textile"
-                        ? "text-[17px] font-semibold tracking-[-2px]"
-                        : "text-[25px]"
-                    }
-                  `}
+                <div
+                  className="
+                    w-[56px]
+                    h-[56px]
+
+                    sm:w-[58px]
+                    sm:h-[58px]
+
+                    bg-white
+
+                    rounded-[17px]
+
+                    flex
+                    items-center
+                    justify-center
+
+                    shadow-[0_2px_5px_rgba(80,50,30,0.08)]
+
+                    mb-4
+
+                    text-[#984c30]
+
+                    transition-transform
+                    duration-300
+
+                    group-hover:scale-105
+                  "
                 >
-                  <medium.icon />
-                </span>
-              </div>
+                  <span
+                    className={`
+                      ${
+                        medium.name === "Textile"
+                          ? "text-[17px] font-semibold tracking-[-2px]"
+                          : "text-[25px]"
+                      }
+                    `}
+                  >
+                    <medium.icon />
+                  </span>
+                </div>
 
+                <h3
+                  className="
+                    text-[#171310]
 
-              {/* Medium Name */}
-              <h3
-                className="
-                  text-[#171310]
+                    text-[18px]
+                    sm:text-[19px]
 
-                  text-[18px]
-                  sm:text-[19px]
+                    font-medium
 
-                  font-medium
+                    leading-none
 
-                  leading-none
+                    text-center
+                  "
+                >
+                  {medium.name}
+                </h3>
 
-                  text-center
-                "
-              >
-                {medium.name}
-              </h3>
+                <p
+                  className="
+                    text-[#765e51]
 
+                    text-[13px]
+                    sm:text-[14px]
 
-              {/* Number of Works */}
-              <p
-                className="
-                  text-[#765e51]
+                    font-medium
 
-                  text-[13px]
-                  sm:text-[14px]
+                    tracking-[0.3px]
 
-                  font-medium
+                    mt-4
 
-                  tracking-[0.3px]
-
-                  mt-4
-
-                  text-center
-                "
-              >
-                {medium.works}
-              </p>
-
-            </div>
-          ))}
+                    text-center
+                  "
+                >
+                  {medium.works}
+                </p>
+              </button>
+            );
+          })}
 
         </div>
 
@@ -323,12 +313,22 @@ const Home = () => {
           </div>
         </div>
 
+        {selectedMedium !== 'All' && (
+          <div className="mb-5 flex items-center justify-between rounded-lg border border-[#f0e5d8] bg-[#fbf3eb] px-4 py-3 text-[12px] text-[#5a433a]">
+            <span>Showing <strong className="font-semibold text-[#2d231f]">{selectedMedium}</strong> works</span>
+            <button type="button" onClick={() => setSelectedMedium('All')} className="font-semibold text-[#a65335] hover:text-[#8e482d]">
+              Clear filter
+            </button>
+          </div>
+        )}
+
         {/* Artwork Grid */}
         <div id="artwork-grid" className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {artworks.map((artwork) => (
+          {filteredArtworks.map((artwork) => (
             <ArtWorkCard
               key={artwork.title}
               artwork={artwork}
+              onAddToCart={onAddToCart}
             />
           ))}
         </div>
